@@ -1,5 +1,3 @@
-const pool = require('./db');
-
 const express = require('express')
 
 
@@ -10,16 +8,6 @@ const router = require(__dirname + '/router')(express.Router());
 //set api port to 3000
 const port = 3000;
 
-//to run a query we just pass it to the pool 
-//after we're done nothing has to be taken care of 
-//we don't have to return any client to the pool or close a connection 
-// pool.query('SELECT $1::int AS number', ['2'], function(err, res) {
-//   if(err) {
-//     return console.error('error running query', err);
-//   }
- 
-//   console.log('number:', res.rows[0].number);
-// });
 
 //To prevent errors from Cross Origin Resource Sharing, we will set 
 //our headers to allow CORS with middleware like so:

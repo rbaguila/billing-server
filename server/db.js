@@ -1,6 +1,6 @@
 const pg = require('pg')
 
-var config = {
+const config = {
   user: 'raguila', //env var: PGUSER 
   database: 'sample', //env var: PGDATABASE 
   password: 'DoctorJ70', //env var: PGPASSWORD 

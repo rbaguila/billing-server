@@ -3,9 +3,8 @@ const controller = require(__dirname + '/controller')
 module.exports = (router) => {
 
     //User
-    //Get functions
     router.get('/', controller.initializeAPI);
-    // router.get('/users', user.viewUsers);
+    router.get('/carriers', controller.viewCarriers);
 
     // //Post functions
     // router.post('/users', user.addUser);

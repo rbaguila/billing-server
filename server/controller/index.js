@@ -1,19 +1,25 @@
-// var User = require('../../model/users');
+const pool = require('../db');
 
 //Initializes API
 exports.initializeAPI = (req, res) => {
     res.json({ message: 'API Initialized!'});
 };
 
-// //Shows all users
-// exports.viewUsers = (req, res) => {
-//     User.find(function(err, users){
-//         if (err)
-//             res.send(err);
-//             //responds with a json object of our database users.
-//         res.json(users)
-//     });
-// };
+//Shows all carriers
+exports.viewCarriers = (req, res, next) => {
+  
+    pool.query('SELECT ID, RTRIM(Name) AS Name, \
+    RTRIM(Description) AS Description \
+    FROM carriers', 
+    (err, result) => {
+      if(err) {
+        return console.error('error running query', err);
+      }
+      
+      res.status(200).send(result.rows);
+    
+    });
+};
 
 // //Adds a user
 // exports.addUser = (req, res) => {
