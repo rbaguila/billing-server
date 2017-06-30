@@ -7,62 +7,37 @@ exports.initializeAPI = (req, res) => {
 
 //Shows all carriers
 exports.viewCarriers = (req, res, next) => {
-  
-    pool.query('SELECT ID, RTRIM(Name) AS Name, \
-    RTRIM(Description) AS Description \
-    FROM carriers', 
-    (err, result) => {
-      if(err) {
-        return console.error('error running query', err);
-      }
-      
-      res.status(200).send(result.rows);
+  pool.query("SELECT ID, RTRIM(Name) AS Name, \
+  RTRIM(Description) AS Description \
+  FROM carriers", 
+  (err, result) => {
+    if(err) {
+      return console.error('error running query', err);
+    }
     
-    });
+    res.status(200).send(result.rows);
+  
+  });
 };
 
-// //Adds a user
-// exports.addUser = (req, res) => {
-//     console.log("Received request");
-//     console.log(req.body);
-
-//     var user = new User();
+//Add a carrier
+exports.addCarrier = (req, res, next) => {
+  console.log("Received request");
   
-//     //First bracket
-//     user.username = req.body.username;
-//     user.password = req.body.password;
-//     user.firstName = req.body.firstName;
-//     user.middleName = req.body.middleName;
-//     user.lastName = req.body.lastName;
-    
-//   //console.log("Room Number: " +req.body.roomNumber);
-
-//     user.officeAddress.push({"roomNumber": req.body.roomNumber});
-//     user.officeAddress.push({"mainAddress": req.body.mainAddress});
-
-
-//     user.ptrNumber = req.body.ptrNumber;
-//     user.licenseNumber = req.body.licenseNumber;
-
-
-//     user.civilStatus = req.body.civilStatus;
-//     user.occupation = req.body.occupation;
-//     user.age = req.body.age;
-//     user.sex = req.body.sex;
-    
-//     //Second bracket
-//     user.birthDate = req.body.birthDate;
-//     user.refferedBy = req.body.refferedBy;
-//     user.contactNumber = req.body.contactNumber;
-
-//     user.dateRegistered = req.body.dateRegistered;
-
-//     user.save(function(err) {
-//         if (err)
-//         res.send(err);
-//         res.json({ message: 'User successfully added!' });
-//     });
-// };
+  //used destructuring assignment for variables that will be used for the insert query
+  let name, description;
+  ({name, description} = req.body);
+  
+  pool.query("INSERT INTO carriers (Name, Description) VALUES \
+    ('"+name+"', '"+description+"')", 
+  (err, result) => {
+    if(err) {
+      return console.error('error running query', err);
+    }
+    res.json({ message: 'Carrier successfully added!' });
+  });
+  
+};
 
 // //Edit a user via his userID
 // exports.editUser = (req, res) =>{

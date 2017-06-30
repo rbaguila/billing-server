@@ -15,8 +15,6 @@ const config = {
 //and set a limit of maximum 10 idle clients 
 const pool = new pg.Pool(config);
 
-console.log("sample"); 
-
 pool.on('error', function (err, client) {
   // if an error is encountered by a client while it sits idle in the pool 
   // the pool itself will emit an error event with both the error and 

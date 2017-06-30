@@ -1,5 +1,5 @@
-const express = require('express')
-
+const express = require('express');
+const bodyParser = require('body-parser');
 
 //create app instance
 const app = express();
@@ -7,6 +7,11 @@ const router = require(__dirname + '/router')(express.Router());
 
 //set api port to 3000
 const port = 3000;
+
+//Configure the API to use bodyParser and look for 
+//JSON data in the request body
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 
 //To prevent errors from Cross Origin Resource Sharing, we will set 
