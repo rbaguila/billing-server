@@ -1,42 +1,43 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import axios from 'axios';
 import './App.css';
-import { Table } from 'semantic-ui-react';
+import CarriersTable from "./CarriersTable";
+
+const url='http://54.169.167.121:3001/api/carriers';
 
 class App extends Component {
-  render() {
-    return (
-      <Table singleLine>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell>Name</Table.HeaderCell>
-            <Table.HeaderCell>Registration Date</Table.HeaderCell>
-            <Table.HeaderCell>E-mail address</Table.HeaderCell>
-            <Table.HeaderCell>Premium Plan</Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
   
-        <Table.Body>
-          <Table.Row>
-            <Table.Cell>John Lilki</Table.Cell>
-            <Table.Cell>September 14, 2013</Table.Cell>
-            <Table.Cell>jhlilk22@yahoo.com</Table.Cell>
-            <Table.Cell>No</Table.Cell>
-          </Table.Row>
-          <Table.Row>
-            <Table.Cell>Jamie Harington</Table.Cell>
-            <Table.Cell>January 11, 2014</Table.Cell>
-            <Table.Cell>jamieharingonton@yahoo.com</Table.Cell>
-            <Table.Cell>Yes</Table.Cell>
-          </Table.Row>
-          <Table.Row>
-            <Table.Cell>Jill Lewis</Table.Cell>
-            <Table.Cell>May 11, 2014</Table.Cell>
-            <Table.Cell>jilsewris22@yahoo.com</Table.Cell>
-            <Table.Cell>Yes</Table.Cell>
-          </Table.Row>
-        </Table.Body>
-      </Table>
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: []
+    };
+    this.loadCarriers = this.loadCarriers.bind(this);
+  }
+  
+  loadCarriers(){
+  
+    axios.get(url)
+      .then(res => {
+      this.setState({ data: res.data });
+      })
+  }
+  
+  componentDidMount() {
+   this.loadCarriers();
+  }
+  
+  
+  render() {
+    // const { listOfCarriers } = this.state;
+    return (
+      <div className="App">
+        <div className="ui text container">
+          <CarriersTable
+            data={ this.state.data }
+          />
+        </div>
+      </div>
     );
   }
 }
