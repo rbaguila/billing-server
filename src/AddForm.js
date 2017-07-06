@@ -46,6 +46,7 @@ class AddForm extends Component {
      let name = this.state.name.trim();
      let description = this.state.description.trim();
      if (!name || !description) {
+        alert("Fields cannot be empty");
         return;
      }
      this.props.onSubmit({ name: name, description: description });

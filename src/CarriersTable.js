@@ -18,7 +18,7 @@ class CarriersTable extends Component {
     this.fetchCarrierById = this.fetchCarrierById.bind(this);
     this.setCarrier = this.setCarrier.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    // this.handleCommentDelete = this.handleCommentDelete.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
     // this.handleCommentUpdate = this.handleCommentUpdate.bind(this);
   }
   
@@ -53,10 +53,28 @@ class CarriersTable extends Component {
         // console.log(response);
       })
       .catch(err => {
-      console.error(err);
-      this.setState({ data: carriers });
-    });
+        console.error(err);
+        this.setState({ data: carriers });
+      });
   }
+  
+  handleDelete(id) {
+    const self = this;
+    let carriers = this.state.data;
+    const isNotId = item => item.id !== id;
+    const updatedCarriers = carriers.filter(isNotId);
+    axios.delete(`${this.url}/${id}`)
+      .then(res => {
+        
+        alert("Successfully deleted!")
+        self.setState({ data: updatedCarriers });
+        console.log('Successfully deleted');
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  }
+  
   componentDidMount() {
    this.fetchCarriers();
   }
@@ -71,7 +89,8 @@ class CarriersTable extends Component {
           <i aria-hidden="true" className="unhide large icon action-button" 
             onClick={() => this.fetchCarrierById(carrier.id)}></i>
           <i aria-hidden="true" className="edit large icon action-button"></i>
-          <i aria-hidden="true" className="delete large icon action-button"></i>
+          <i aria-hidden="true" className="delete large icon action-button"
+            onClick={() => this.handleDelete(carrier.id)}></i>
         </td>
       </tr>
       )

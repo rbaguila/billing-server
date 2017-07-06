@@ -7,8 +7,8 @@ module.exports = (router) => {
     router.get('/carriers', controller.viewCarriers);
     router.get('/carriers/:id', controller.viewCarrier);
     router.post('/carriers', controller.addCarrier);
-    router.put('/carrier/:id', controller.editCarrier);
-    router.delete('/carrier/:id', controller.deleteCarrier);
+    router.put('/carriers/:id', controller.editCarrier);
+    router.delete('/carriers/:id', controller.deleteCarrier);
 
     return router;
 }
