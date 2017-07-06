@@ -4,6 +4,7 @@ import axios from 'axios';
 // import { Button, Header, Icon, Modal, Form } from 'semantic-ui-react';
 // import ModalAction from "./Modal";
 import AddForm from "./AddForm";
+import EditForm from "./EditForm";
 import PDFButton from "./PDFButton";
 
 class CarriersTable extends Component {
@@ -19,7 +20,7 @@ class CarriersTable extends Component {
     this.setCarrier = this.setCarrier.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
-    // this.handleCommentUpdate = this.handleCommentUpdate.bind(this);
+    this.handleUpdate = this.handleUpdate.bind(this);
   }
   
   fetchCarriers(){
@@ -44,8 +45,7 @@ class CarriersTable extends Component {
     const self = this;
     let carriers = this.state.data;
     let newCarriers = carriers.concat([carrier]);
-    console.log(newCarriers);
-    // this.setState({ data: newCarriers });
+    
     axios.post(this.url, carrier)
       .then(function(response){
         console.log(response);
@@ -58,6 +58,23 @@ class CarriersTable extends Component {
       });
   }
   
+  handleUpdate(id, carrier) {
+    const self = this;
+    let carriers = this.state.data;
+    
+    axios.put(`${this.props.url}/${id}`, carrier)
+      .then(res => {
+        
+        // self.setState({ data: updatedCarriers });
+        self.fetchCarriers();
+        console.log('Successfully updated');
+      })
+      .catch(err => {
+        console.log(err);
+        this.setState({ data: carriers });
+      })
+  }
+  
   handleDelete(id) {
     const self = this;
     let carriers = this.state.data;
@@ -65,13 +82,13 @@ class CarriersTable extends Component {
     const updatedCarriers = carriers.filter(isNotId);
     axios.delete(`${this.url}/${id}`)
       .then(res => {
-        
         alert("Successfully deleted!")
         self.setState({ data: updatedCarriers });
         console.log('Successfully deleted');
       })
       .catch(err => {
         console.error(err);
+        this.setState({ data: carriers });
       });
   }
   
@@ -88,7 +105,12 @@ class CarriersTable extends Component {
         <td className="collapsing right aligned">
           <i aria-hidden="true" className="unhide large icon action-button" 
             onClick={() => this.fetchCarrierById(carrier.id)}></i>
-          <i aria-hidden="true" className="edit large icon action-button"></i>
+          <EditForm 
+            carrierId = {carrier.id}
+            carrierName = {carrier.name}
+            carrierDescription = {carrier.description}
+            onUpdate = { this.handleUpdate }
+          />
           <i aria-hidden="true" className="delete large icon action-button"
             onClick={() => this.handleDelete(carrier.id)}></i>
         </td>

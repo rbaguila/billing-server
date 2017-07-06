@@ -9,7 +9,7 @@ exports.initializeAPI = (req, res) => {
 exports.viewCarriers = (req, res, next) => {
   pool.query("SELECT ID, RTRIM(Name) AS Name, \
   RTRIM(Description) AS Description \
-  FROM carriers", 
+  FROM carriers ORDER BY ID", 
   (err, result) => {
     if(err) {
       return console.error('error running query', err);

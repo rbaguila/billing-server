@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import { Button, Header, Modal, Form, Icon } from 'semantic-ui-react';
 
-class AddForm extends Component {
+class EditForm extends Component {
     
     constructor(props){
         super(props);
         this.state = {
             showModal: false,
-            name: '',
-            description: ''
+            name: this.props.carrierName,
+            description: this.props.carrierDescription
         }
+        
         this.open = this.open.bind(this);
         this.close = this.close.bind(this);
         this.onChangeName = this.onChangeName.bind(this);
@@ -25,7 +26,7 @@ class AddForm extends Component {
         alert("Fields cannot be empty");
         return;
      }
-     this.props.onSubmit({ name: name, description: description });
+     this.props.onUpdate(this.props.carrierId, { name: name, description: description });
      this.setState({ name: '', description: '' });
      this.close();
     }
@@ -47,8 +48,8 @@ class AddForm extends Component {
     
     render() {
     return (    
-        <Modal trigger={<Button inverted color='green' onClick={this.open}>{this.props.title}</Button>} open={this.state.showModal}>
-            <Header icon='add' content='Add a Carrier' />
+        <Modal trigger={<i aria-hidden="true" onClick={this.open} className="edit large icon action-button"></i>} open={this.state.showModal}>
+            <Header icon='edit' content='Edit a Carrier' />
             <Modal.Content>
               <Form>
                 <Form.Field>
@@ -82,4 +83,4 @@ class AddForm extends Component {
   }
 }
 
-export default AddForm;
+export default EditForm;
