@@ -1,17 +1,18 @@
 import React, { Component } from "react";
 import fetch from 'isomorphic-fetch';
 import axios from 'axios';
-// import { Button, Header, Icon, Modal, Form } from 'semantic-ui-react';
-// import ModalAction from "./Modal";
 import AddForm from "./AddForm";
 import EditForm from "./EditForm";
 import PDFButton from "./PDFButton";
+import { Icon, Menu, Table } from 'semantic-ui-react';
 
 class CarriersTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: []
+      data: [],
+      activeItem: 1,
+      itemPerPage: 5
     };
     this.title = this.props.title;
     this.url = this.props.url;
@@ -21,6 +22,9 @@ class CarriersTable extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
+    this.handleItemClick = this.handleItemClick.bind(this);
+    this.handleItemClickRight = this.handleItemClickRight.bind(this);
+    this.handleItemClickLeft = this.handleItemClickLeft.bind(this);
   }
   
   fetchCarriers(){
@@ -92,12 +96,34 @@ class CarriersTable extends Component {
       });
   }
   
+  handleItemClick = (e, {name}) => {
+    console.log(name);
+    // const item = parseInt(name, 10)
+    this.setState({ activeItem: name }) 
+  }
+  
+  handleItemClickRight = (e) => {
+    const item = this.state.activeItem + 1;
+    this.setState({ activeItem: item })
+  }
+  
+  handleItemClickLeft = (e) => {
+    const item = this.state.activeItem - 1;
+    this.setState({ activeItem: item })
+  }
+  
   componentDidMount() {
    this.fetchCarriers();
   }
   
   render() {
-    let carrierRows = this.state.data.map(carrier => {
+    const { activeItem, itemPerPage } = this.state;
+    
+    const indexOfLast = activeItem * itemPerPage;
+    const indexOfFirst = indexOfLast - itemPerPage;
+    const currentData = this.state.data.slice(indexOfFirst, indexOfLast);
+    
+    let carrierRows = currentData.map(carrier => {
       return (
       <tr key={carrier.id}>
         <td>{carrier.name}</td>
@@ -116,39 +142,71 @@ class CarriersTable extends Component {
       </tr>
       )
     })
+    
+    const pageNumbers = [];
+    for (let i = 1; i <= Math.ceil(this.state.data.length / itemPerPage); i++) {
+      pageNumbers.push(i);
+    }
+    console.log("ACTIVE: "+activeItem);
+    const renderPageNumbers = pageNumbers.map(number => {
+      console.log("NUMBER: "+number);
+      return (
+        <Menu.Item 
+          key={number}
+          name={""+number+""}
+          active={activeItem == number} 
+          onClick={this.handleItemClick}>
+          {number}
+        </Menu.Item>
+      );
+    });
+    
     return (
-      <table className="ui selectable structured large table">
-        <thead>
-          <tr>
-            <th colSpan="1">
-              <h3>{this.title}</h3>
-            </th>
-            <th colSpan="1" className="right aligned">
-              <PDFButton
-                title = "Download PDF"
-                url = {this.url}
-              />
-            </th>
-            
-            <th colSpan="1" className="right aligned">
-              <AddForm
-                title = "Add"
-                url = {this.url}
-                onSubmit = { this.handleSubmit }
-              />
-            </th>
-          </tr>
-          <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th className="collapsing center aligned">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {carrierRows}
-        </tbody>
-        
-      </table>
+      <Table basic>
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell colSpan='1'><h3>{this.title}</h3></Table.HeaderCell>
+          <Table.HeaderCell colSpan='1' className="right aligned">
+            <PDFButton
+              title = "Download PDF"
+              url = {this.url}
+            />
+          </Table.HeaderCell>
+          <Table.HeaderCell colSpan='1' className="right aligned">
+            <AddForm
+              title = "Add"
+              url = {this.url}
+              onSubmit = { this.handleSubmit }
+            />
+          </Table.HeaderCell>
+        </Table.Row>
+         <Table.Row>
+          <Table.HeaderCell>Name</Table.HeaderCell>
+          <Table.HeaderCell>Description</Table.HeaderCell>
+          <Table.HeaderCell>Actions</Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
+
+      <Table.Body>
+        {carrierRows}
+      </Table.Body>
+
+      <Table.Footer>
+      <Table.Row>
+        <Table.HeaderCell colSpan='3'>
+          <Menu floated='right' pagination>
+            <Menu.Item as='a' onClick={this.handleItemClickLeft} icon>
+              <Icon name='left chevron' />
+            </Menu.Item>
+            {renderPageNumbers}
+            <Menu.Item  as='a' onClick={this.handleItemClickRight} icon>
+              <Icon name='right chevron' />
+            </Menu.Item>
+          </Menu>
+        </Table.HeaderCell>
+      </Table.Row>
+      </Table.Footer>
+    </Table>
     )
   }
 }
