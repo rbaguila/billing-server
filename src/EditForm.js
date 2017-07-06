@@ -27,7 +27,7 @@ class EditForm extends Component {
         return;
      }
      this.props.onUpdate(this.props.carrierId, { name: name, description: description });
-     this.setState({ name: '', description: '' });
+     this.setState({ name: name, description: description });
      this.close();
     }
     open(){

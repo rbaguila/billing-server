@@ -48,36 +48,36 @@ class AddForm extends Component {
     render() {
     return (    
         <Modal trigger={<Button inverted color='green' onClick={this.open}>{this.props.title}</Button>} open={this.state.showModal}>
-            <Header icon='add' content='Add a Carrier' />
-            <Modal.Content>
-              <Form>
-                <Form.Field>
-                  <label>Name</label>
-                  <input placeholder='Name' 
-                    name = "name"
-                    value = {this.state.name}
-                    onChange = {this.onChangeName}
-                  />
-                </Form.Field>
-                <Form.Field>
-                  <label>Description</label>
-                  <input placeholder='Description' 
-                    name = "description"
-                    value = {this.state.description}
-                    onChange = {this.onChangeDescription}
-                  />
-                </Form.Field>
-              </Form>
-            </Modal.Content>
-            <Modal.Actions>
-              <Button color='red' onClick={this.close}>
-                <Icon name='remove' /> Discard
-              </Button>
-              <Button color='green' onClick={this.handleSubmit}>
-                <Icon name='checkmark' /> Save
-              </Button>
-            </Modal.Actions>
-          </Modal>
+        <Header icon='add' content='Add a Carrier' />
+        <Modal.Content>
+          <Form>
+            <Form.Field>
+              <label>Name</label>
+              <input placeholder='Name' 
+                name = "name"
+                value = {this.state.name}
+                onChange = {this.onChangeName}
+              />
+            </Form.Field>
+            <Form.Field>
+              <label>Description</label>
+              <input placeholder='Description' 
+                name = "description"
+                value = {this.state.description}
+                onChange = {this.onChangeDescription}
+              />
+            </Form.Field>
+          </Form>
+        </Modal.Content>
+        <Modal.Actions>
+          <Button color='red' onClick={this.close}>
+            <Icon name='remove' /> Discard
+          </Button>
+          <Button color='green' onClick={this.handleSubmit}>
+            <Icon name='checkmark' /> Save
+          </Button>
+        </Modal.Actions>
+      </Modal>
     )
   }
 }

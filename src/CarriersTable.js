@@ -103,8 +103,7 @@ class CarriersTable extends Component {
         <td>{carrier.name}</td>
         <td>{carrier.description}</td>
         <td className="collapsing right aligned">
-          <i aria-hidden="true" className="unhide large icon action-button" 
-            onClick={() => this.fetchCarrierById(carrier.id)}></i>
+          
           <EditForm 
             carrierId = {carrier.id}
             carrierName = {carrier.name}
