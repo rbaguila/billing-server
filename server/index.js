@@ -6,7 +6,7 @@ const app = express();
 const router = require(__dirname + '/router')(express.Router());
 
 //set api port to 8081
-const port = 3001;
+const port = 8081;
 
 //Configure the API to use bodyParser and look for 
 //JSON data in the request body
