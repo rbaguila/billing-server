@@ -125,10 +125,10 @@ class CarriersTable extends Component {
     
     let carrierRows = currentData.map(carrier => {
       return (
-      <tr key={carrier.id}>
-        <td>{carrier.name}</td>
-        <td>{carrier.description}</td>
-        <td className="collapsing right aligned">
+      <Table.Row key={carrier.id}>
+        <Table.Cell>{carrier.name}</Table.Cell>
+        <Table.Cell>{carrier.description}</Table.Cell>
+        <Table.Cell className="collapsing right aligned">
           
           <EditForm 
             carrierId = {carrier.id}
@@ -138,8 +138,8 @@ class CarriersTable extends Component {
           />
           <i aria-hidden="true" className="delete large icon action-button"
             onClick={() => this.handleDelete(carrier.id)}></i>
-        </td>
-      </tr>
+        </Table.Cell>
+      </Table.Row>
       )
     })
     
